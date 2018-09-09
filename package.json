@@ -1,0 +1,17 @@
+{
+  "name": "trade",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "espnff": "github:mistakia/espnff",
+    "jsonfile": "^5.0.0",
+    "machine": "github:trashman-industries/machine",
+    "moment": "^2.22.2"
+  }
+}
