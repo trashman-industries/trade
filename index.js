@@ -3,8 +3,12 @@ const path = require('path')
 const jsonfile = require('jsonfile')
 const machine = require('machine')
 const moment = require('moment')
+const argv = require('yargs').argv
 
-const config = require('./config')
+const config_path = path.resolve(__dirname, argv.config || './config')
+const config = require(config_path)
+
+console.log(config)
 const current_week = moment().diff(config.week_one, 'weeks')
 
 //const data_path = path.resolve(__dirname, '../data/power_rankings.json')
@@ -80,11 +84,14 @@ const run = async () => {
     config.add,
     config.remove
   )
-  traded_teams[config.opponentId] = tradePlayers(
-    traded_teams[config.opponentId],
-    config.remove,
-    config.add
-  )
+
+  if (config.opponentId) {
+    traded_teams[config.opponentId] = tradePlayers(
+      traded_teams[config.opponentId],
+      config.remove,
+      config.add
+    )
+  }
 
   const new_team_results = await machine.simulateSeason({ current_week, leagueId, teams: traded_teams, standings, schedule })
 

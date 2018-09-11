@@ -12,6 +12,7 @@
     "espnff": "github:mistakia/espnff",
     "jsonfile": "^5.0.0",
     "machine": "github:trashman-industries/machine",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "yargs": "^12.0.2"
   }
 }
