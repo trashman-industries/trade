@@ -27,7 +27,7 @@ const outputLineup = (original_lineup, new_lineup) => {
   console.log(`WR2 - ${original_lineup.wr2.player_name} (${original_lineup.wr2.fantasy_points})\t\t\t${new_lineup.wr2.player_name} (${new_lineup.wr2.fantasy_points})`)
   console.log(`Flex - ${original_lineup.flex.player_name} (${original_lineup.flex.fantasy_points})\t\t\t${new_lineup.flex.player_name} (${new_lineup.flex.fantasy_points})`)
   console.log(`TE - ${original_lineup.te.player_name} (${original_lineup.te.fantasy_points})\t\t\t${new_lineup.te.player_name} (${new_lineup.te.fantasy_points})`)
-  console.log(`K - ${original_lineup.k.player_name} (${original_lineup.k.fantasy_points})\t\t\t${new_lineup.k.player_name} (${new_lineup.k.fantasy_points})`)
+  if (original_lineup.k) console.log(`K - ${original_lineup.k.player_name} (${original_lineup.k.fantasy_points})\t\t\t${new_lineup.k.player_name} (${new_lineup.k.fantasy_points})`)
   console.log(`DST - ${original_lineup.dst.player_name} (${original_lineup.dst.fantasy_points})\t\t\t${new_lineup.dst.player_name} (${new_lineup.dst.fantasy_points})`)
   console.log('\n')
   console.log('\n')
@@ -53,9 +53,9 @@ const outputWeeklyResults = (o, n, week) => {
   const current_odds = n[`${me}_team_probability`]
   const prob_delta = current_odds - o[`${me}_team_probability`]
 
-  const orig_point = n[`${me}_lineup`].total.toFixed(1)
-  const new_point = o[`${me}_lineup`].total.toFixed(1)
-  const point_delta = (orig_point - new_point).toFixed(1)
+  const orig_point = o[`${me}_lineup`].total.toFixed(1)
+  const new_point = n[`${me}_lineup`].total.toFixed(1)
+  const point_delta = (new_point - orig_point).toFixed(1)
 
   console.log(`\n\n================= Week ${week} =================`)
 
@@ -94,7 +94,6 @@ const run = async () => {
   }
 
   const new_team_results = await machine.simulateSeason({ current_week, leagueId, teams: traded_teams, standings, schedule })
-
   const original_team = current_team_results.filter((team) => team.team_id === config.myId)[0]
   const new_team = new_team_results.filter((team) => team.team_id === config.myId)[0]
 
@@ -109,8 +108,4 @@ const run = async () => {
   //TODO: output start counts
 }
 
-try {
-  run()
-} catch (e) {
-  console.log(e)
-}
+run().catch((err) => console.log(err))
