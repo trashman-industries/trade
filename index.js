@@ -5,13 +5,11 @@ const machine = require('machine')
 const moment = require('moment')
 const argv = require('yargs').argv
 
-const config_path = path.resolve(__dirname, `config.${argv.config}` || './config')
+const config_path = path.resolve(__dirname, argv.config ? `config.${argv.config}` : './config')
 const config = require(config_path)
 
 console.log(config)
 const current_week = moment().diff(config.week_one, 'weeks')
-
-//const data_path = path.resolve(__dirname, '../data/power_rankings.json')
 
 const tradePlayers = (team, add, remove) => {
   team = [...team, ...add]
