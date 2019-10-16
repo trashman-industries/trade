@@ -114,7 +114,20 @@ const run = async () => {
   for (const matchup in original_team.matchups) {
     const o = original_team.matchups[matchup]
     const n = new_team.matchups[matchup]
-    outputWeeklyResults(o, n, matchup, standings)
+    if (config.showWeekly) outputWeeklyResults(o, n, matchup, standings)
+  }
+
+  for (const week in original_team.playoffs) {
+    const orig_point = original_team.playoffs[week].total.toFixed(1)
+    const new_point = new_team.playoffs[week].total.toFixed(1)
+    const point_delta = (new_point - orig_point).toFixed(1)
+
+    console.log(`\n\n================= Week ${week} =================`)
+    console.log(`Projection: ${new_point} (${point_delta})`)
+    const original_lineup = original_team.playoffs[week]
+    const new_lineup = new_team.playoffs[week]
+    console.log('\n')
+    outputLineup(original_lineup, new_lineup)
   }
 
   //TODO: output start counts
